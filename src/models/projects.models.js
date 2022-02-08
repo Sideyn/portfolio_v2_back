@@ -17,6 +17,11 @@ class Projects {
     return connection.promise().query(sql, [projects]);
   }
 
+  static updateOne(newProject, id) {
+    const sql = "UPDATE projects SET ? WHERE id=?";
+    return connection.promise().query(sql, [newEvent, id]);
+  }
+
   static deleteOneById(id) {
     const sql = "DELETE FROM projects WHERE id=?";
     return connection.promise().query(sql, [id]);

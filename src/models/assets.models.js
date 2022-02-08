@@ -11,9 +11,14 @@ class Assets {
     return connection.promise().query(sql, [id]);
   }
 
+  static createOne(asset) {
+    const sql = "INSERT INTO assets SET ?";
+    return connection.promise().query(sql, [asset]);
+  }
+
   static deleteOneAssetById(id) {
     const sql = "DELETE FROM assets WHERE id=?";
-    return connection.promise().query(sql, [asset]);
+    return connection.promise().query(sql, [id]);
   }
 }
 
