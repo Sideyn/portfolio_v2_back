@@ -75,11 +75,11 @@ const updateOneProjectById = async (req, res, next) => {
 const deleteOneProject = async (req, res, next) => {
   const projects_id = req.params.id;
   try {
-    const [result] = await Projects.deleteOneProject(projects_id);
+    const [result] = await Projects.deleteOneById(projects_id);
     if (result.affectedRows === 0) {
       res.status(404).send(`Projet ${projects_id} non trouvé`);
     } else {
-      res.status(200).send(`Projet ${id} supprimé`);
+      res.status(200).send(`Projet ${projects_id} supprimé`);
     }
   } catch (err) {
     res.status(500).send(err.message);

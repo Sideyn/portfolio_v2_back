@@ -11,7 +11,7 @@ class Assets {
     return connection.promise().query(sql, [id]);
   }
 
-  static createOne(asset) {
+  static createOneAsset(asset) {
     const sql = "INSERT INTO assets SET ?";
     return connection.promise().query(sql, [asset]);
   }
