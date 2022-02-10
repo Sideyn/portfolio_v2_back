@@ -11,8 +11,9 @@ const getAllAssets = async (req, res) => {
 };
 
 const getOneAssetById = async (req, resp) => {
-  const id = req.params.id ? req.params.id : req.asset_id;
+  const id = req.params.id ? req.params.id : req.assets_id;
   const statusCode = req.method === "POST" ? 201 : 200;
+  console.log(id, "id");
   try {
     const [result] = await Assets.findOneAssetById(id);
     if (result.length === 0) {
@@ -30,7 +31,7 @@ const uploadOneAsset = async (req, resp, next) => {
     destination: (_req, asset, cb) => {
       cb(null, `public/assets/`);
     },
-    filename: (_, asset, cb) => {
+    asset_name: (_, asset, cb) => {
       cb(null, `${asset.originalname}`);
     },
   });
@@ -40,24 +41,30 @@ const uploadOneAsset = async (req, resp, next) => {
     if (err) {
       resp.status(500).json(err);
     } else {
-      console.log(req.file);
+      req.source = JSON.parse(req.body.source);
       next();
     }
   });
 };
 
 const createOneAsset = async (req, res, next) => {
-  const newAsset = {
-    asset_name: req.file.filename,
-    source: "image",
-  };
+  let { source, asset_name } = req.body;
 
-  try {
-    const [result] = await Assets.createOneAsset(newAsset);
-    req.assets_id = result.insertId;
-    next();
-  } catch (err) {
-    res.status(500).send(err.message);
+  if (req.file?.asset_name) {
+    asset_name = req.file.asset_name;
+    source = req.source;
+  }
+
+  if (!asset_name || !source) {
+    res.status(400).send("You must provided mandatory data");
+  } else {
+    try {
+      const [result] = await Assets.createOneAsset({ asset_name, source });
+      req.assets_id = result.insertId;
+      next();
+    } catch (err) {
+      res.status(500).send(err.message);
+    }
   }
 };
 

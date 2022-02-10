@@ -19,12 +19,12 @@ class Projects {
 
   static findAssetsByProjectId(id) {
     const sql =
-      "SELECT a.source, a.type FROM projects AS p JOIN assets AS a ON p.assets_id=a.id WHERE p.id=? ";
+      "SELECT a.source, a.asset_name FROM projects AS p JOIN assets AS a ON p.assets_id=a.id WHERE p.id=? ";
     return connection.promise().query(sql, [id]);
   }
 
   static createOne(projects) {
-    const sql = "INSERT INTO events SET ?";
+    const sql = "INSERT INTO projects SET ?";
     return connection.promise().query(sql, [projects]);
   }
 
