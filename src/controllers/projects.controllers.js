@@ -2,8 +2,29 @@ const { Projects } = require("../models");
 
 const getAllProjects = async (req, res) => {
   try {
-    const [results] = await Projects.findManyProjects();
-    res.json(results);
+    const [results] = await Projects.findManyProjectsWithAssets();
+    const projects = [];
+    results.forEach((project) => {
+      if (
+        projects.length === 0 ||
+        project.id !== projects[projects.length - 1].id
+      ) {
+        const projectWithAssets = {
+          id: project.id,
+          title: project.title,
+          link: project.link,
+          description: project.description,
+          assets: [{ source: project.source, title: project.asset_name }],
+        };
+        projects.push(projectWithAssets);
+      } else {
+        projects[projects.length - 1].projects.push({
+          source: project.source,
+          title: project.asset_name,
+        });
+      }
+    });
+    res.json(projects);
   } catch (err) {
     res.status(500).send(err.message);
   }
