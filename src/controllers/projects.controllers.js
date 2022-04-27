@@ -2,7 +2,7 @@ const { Projects } = require("../models");
 
 const getAllProjects = async (req, res) => {
   try {
-    const [results] = await Projects.findManyProjectsWithAssets();
+    const [results] = await Projects.findManyWithAssets();
     const projects = [];
     results.forEach((project) => {
       if (

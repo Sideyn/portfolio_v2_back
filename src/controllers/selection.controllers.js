@@ -28,12 +28,13 @@ const getOneLinkById = async (req, res, next) => {
 const createOneLink = async (req, res, next) => {
   const assets_id = req.body ? req.body.assets_id : req.assets_id;
   const { projects_id } = req;
-
+  console.log(assets_id, projects_id);
   if (assets_id && projects_id) {
     try {
       await Selection.createOne({ assets_id, projects_id });
       next();
     } catch (err) {
+      console.log(err.message);
       res.status(500).send(err.message);
     }
   } else if (projects_id && !assets_id) {

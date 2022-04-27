@@ -1,10 +1,10 @@
 const authRouter = require("express").Router();
-const { adminsControllers, authControllers } = require("../controllers");
+const { adminControllers, authControllers } = require("../controllers");
 
-authRouter.get("/", adminsControllers.getOneAdminById);
+authRouter.get("/", adminControllers.getOneAdminById);
 authRouter.post(
   "/",
-  adminsControllers.verifyAdminLogin,
+  adminControllers.verifyAdminLogin,
   authControllers.createToken
 );
 
