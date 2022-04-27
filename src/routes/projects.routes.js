@@ -12,9 +12,9 @@ projectsRouter.get("/:id", projectsControllers.getOneProjectById);
 projectsRouter.post(
   "/",
   authControllers.verifyToken,
-  projectsControllers.createOneEvent,
+  projectsControllers.createOneProject,
   linkControllers.createOneLink,
-  projectsControllers.getOneEventById
+  projectsControllers.getOneProjectById
 );
 
 projectsRouter.put(
@@ -27,7 +27,7 @@ projectsRouter.put(
 projectsRouter.delete(
   "/:id",
   authControllers.verifyToken,
-  linkControllers.createOneLink,
+  linkControllers.deleteOneLink,
   projectsControllers.deleteOneProject
 );
 

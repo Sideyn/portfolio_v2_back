@@ -2,6 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   argon2: ^0.28.3
+  cookie-parser: ^1.4.6
   cors: ^2.8.5
   dotenv: ^11.0.0
   eslint: ^8.6.0
@@ -16,6 +17,7 @@ specifiers:
 
 dependencies:
   argon2: 0.28.3
+  cookie-parser: 1.4.6
   cors: 2.8.5
   dotenv: 11.0.0
   express: 4.17.2
@@ -1252,6 +1254,14 @@ packages:
     dependencies:
       safe-buffer: 5.1.2
     dev: true
+
+  /cookie-parser/1.4.6:
+    resolution: {integrity: sha512-z3IzaNjdwUC2olLIB5/ITd0/setiaFMLYiZJle7xg5Fe9KWAceil7xszYfHHBtDFYLSgJduS2Ty0P1uJdPDJeA==}
+    engines: {node: '>= 0.8.0'}
+    dependencies:
+      cookie: 0.4.1
+      cookie-signature: 1.0.6
+    dev: false
 
   /cookie-signature/1.0.6:
     resolution: {integrity: sha1-4wOogrNCzD7oylE6eZmXNNqzriw=}
