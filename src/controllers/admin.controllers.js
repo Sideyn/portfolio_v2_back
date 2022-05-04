@@ -25,19 +25,19 @@ const getOneAdminById = async (req, res) => {
 };
 
 const validateNewAdminData = async (req, res, next) => {
-  const { email } = req.body;
-  if (await Admin.emailAlreadyExists(email)) {
-    res.status(401).send(`${email} est déjà utilisé par un Admin`);
+  const { mail } = req.body;
+  if (await Admin.mailAlreadyExists(mail)) {
+    res.status(401).send(`${mail} est déjà utilisé par un Admin`);
   } else {
     next();
   }
 };
 
 const createOneAdmin = async (req, res, next) => {
-  const { email, password } = req.body;
+  const { mail, password } = req.body;
   try {
     const hashedPassword = await Admin.passwordHashing(password);
-    const [result] = await Admin.createOne({ email, hashedPassword });
+    const [result] = await Admin.createOne({ mail, hashedPassword });
     req.id = result.insertId;
     next();
   } catch (err) {
@@ -48,7 +48,7 @@ const createOneAdmin = async (req, res, next) => {
 const deleteOneAdmin = async (req, res) => {
   const { id } = req.params;
   try {
-    const [result] = await Admin.deleteOneAdminById(id);
+    const [result] = await Admin.deleteOneById(id);
     if (result.affectedRows === 0) {
       res.status(404).send(`Admin avec l'id ${id} non trouvé`);
     } else {
@@ -62,9 +62,9 @@ const deleteOneAdmin = async (req, res) => {
 };
 
 const verifyAdminLogin = async (req, res, next) => {
-  const { email, password } = req.body;
+  const { mail, password } = req.body;
   try {
-    const [result] = await Admin.findOneAdminByEmail(email);
+    const [result] = await Admin.findOneAdminByEmail(mail);
     if (result.length === 0) {
       res.status(404).send("Cet email n'appartient à aucun utilisateur");
     } else {

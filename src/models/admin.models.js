@@ -10,28 +10,39 @@ const hashingOptions = {
 
 class Admin {
   static findMany() {
-    const sql = "SELECT id, email FROM admins";
+    const sql = "SELECT id, mail FROM admin";
     return connection.promise().query(sql);
   }
 
   static findOneAdminById(id) {
-    const sql = "SELECT * FROM admins WHERE id=?";
+    const sql = "SELECT * FROM admin WHERE id=?";
     return connection.promise().query(sql, [id]);
   }
 
-  static findOneAdminByEmail(email) {
-    const sql = "SELECT * FROM admins WHERE email=?";
-    return connection.promise().query(sql, [email]);
+  static findOneAdminByEmail(mail) {
+    const sql = "SELECT * FROM admin WHERE mail=?";
+    return connection.promise().query(sql, [mail]);
   }
 
   static deleteOnebyId(id) {
-    const sql = "DELETE FROM admins WHERE id=?";
+    const sql = "DELETE FROM admin WHERE id=?";
     return connection.promise().query(sql, [id]);
   }
 
+  static async mailAlreadyExists(mail) {
+    const sql = "SELECT * FROM admin WHERE mail=?";
+    const [result] = await connection.promise().query(sql, [mail]);
+    return result.length > 0;
+  }
+
   static async verifyPassword(hashedPassword) {
-    const sql = "SELECT hashedPassword FROM admin WHERE email=?";
+    const sql = "SELECT hashedPassword FROM admin WHERE mail=?";
     return connection.promise().query(sql, [hashedPassword]);
+  }
+
+  static async passwordHashing(password) {
+    const hashedPassword = await argon2.hash(password, hashingOptions);
+    return hashedPassword;
   }
 
   static async verifyPasswordHash(hashedPassword, password) {
@@ -39,7 +50,7 @@ class Admin {
   }
 
   static createOne(admin) {
-    const sql = "INSERT INTO admins SET ?";
+    const sql = "INSERT INTO admin SET ?";
     return connection.promise().query(sql, [admin]);
   }
 }
