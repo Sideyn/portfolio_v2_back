@@ -16,9 +16,9 @@ class Selection {
     return connection.promise().query(sql, [link]);
   }
 
-  static deleteOneById(projects_id) {
+  static deleteOneById(id) {
     const sql = "DELETE FROM selection_assets WHERE projects_id=?";
-    return connection.promise().query(sql, [projects_id]);
+    return connection.promise().query(sql, [id]);
   }
 }
 

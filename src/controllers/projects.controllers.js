@@ -1,4 +1,4 @@
-const { Projects } = require("../models");
+const { Projects, Selection } = require("../models");
 
 const getAllProjects = async (req, res) => {
   try {
@@ -60,10 +60,10 @@ const createOneProject = async (req, res, next) => {
   const { assets_id, title, link, description } = req.body;
   try {
     const [result] = await Projects.createOne({
-      assets_id,
       title,
       link,
       description,
+      assets_id,
     });
     req.projects_id = result.insertId;
     next();
@@ -74,8 +74,9 @@ const createOneProject = async (req, res, next) => {
 
 const updateOneProjectById = async (req, res, next) => {
   const { id } = req.params;
-  const { title, link, description } = req.body;
+  const { title, link, description, assets_id } = req.body;
   const newProject = {};
+
   if (title) {
     newProject.title = title;
   }
@@ -85,6 +86,9 @@ const updateOneProjectById = async (req, res, next) => {
   if (description) {
     newProject.description = description;
   }
+  if (assets_id) {
+    newProject.assets_id = assets_id;
+  }
   try {
     await Projects.updateOne(newProject, parseInt(id, 10));
     next();
@@ -93,14 +97,14 @@ const updateOneProjectById = async (req, res, next) => {
   }
 };
 
-const deleteOneProject = async (req, res, next) => {
-  const projects_id = req.params.id;
+const deleteOneProject = async (req, res) => {
+  const { id } = req.params;
   try {
-    const [result] = await Projects.deleteOneById(projects_id);
+    const [result] = await Projects.deleteOneById(id);
     if (result.affectedRows === 0) {
-      res.status(404).send(`Projet ${projects_id} non trouvé`);
+      res.status(404).send(`Projet ${id} non trouvé`);
     } else {
-      res.status(200).send(`Projet ${projects_id} supprimé`);
+      res.status(200).send(`Projet ${id} supprimé`);
     }
   } catch (err) {
     res.status(500).send(err.message);

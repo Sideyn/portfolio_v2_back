@@ -1,10 +1,13 @@
+// J'importe le package JWT qui va me servir à me définir un token pour pouvoir avoir accés à un endroit restreint
 const jwt = require("jsonwebtoken");
 
+// Je crée le token
 const createToken = (req, resp) => {
-  // on recupere l'admin.id et le secret, et on définit la durée du token
+  // Je récupere l'admin.id et le secret, et je définis la durée du token
   const id = req.adminId;
   const token = jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-  // on envoie le token dans un cookie nommé userToken, de type token, et protégé par httpOnly (le front ne pourra pas le lire)
+
+  // J'envoie le token dans un cookie nommé userToken, de type token, et protégé par httpOnly (le front ne pourra pas le lire)
   resp
     .status(200)
     .cookie("adminToken", token, {
@@ -15,10 +18,11 @@ const createToken = (req, resp) => {
     .json({ id });
 };
 
+// Je vérifie si le token est bon
 const verifyToken = (req, resp, next) => {
   const { adminToken } = req.cookies;
   if (adminToken) {
-    // verify recupère decoded ou une erreur si token pas bon
+    // verify recupère decoded ou une erreur si le token n'est pas bon
     jwt.verify(adminToken, process.env.JWT_SECRET, (err, decoded) => {
       if (err) {
         resp.status(403).send(err.message);

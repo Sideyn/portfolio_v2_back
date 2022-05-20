@@ -29,42 +29,56 @@ const getOneAssetById = async (req, resp) => {
 const uploadOneAsset = async (req, resp, next) => {
   const assetStorage = multer.diskStorage({
     destination: (_req, asset, cb) => {
+      // Le dossier ou je stocke mes assets
       cb(null, `public/assets/`);
     },
-    asset_name: (_, asset, cb) => {
+    filename: (_, asset, cb) => {
       cb(null, `${asset.originalname}`);
     },
   });
 
+  // Je configure multer pour qu'il sauvegarde bien un seul fichier
   const upload = multer({ storage: assetStorage }).single("asset");
   upload(req, resp, (err) => {
     if (err) {
       resp.status(500).json(err);
     } else {
-      req.source = JSON.parse(req.body.source);
+      console.log(req.file);
       next();
     }
   });
 };
 
 const createOneAsset = async (req, res, next) => {
-  let { source, asset_name } = req.body;
+  let { type } = req.query;
+  type =
+    type === "image/png"
+      ? "image/png"
+      : "image/jpg"
+      ? "image/jpg"
+      : "image/jpeg";
 
-  if (req.file?.asset_name) {
-    asset_name = req.file.asset_name;
-    source = req.source;
-  }
-
-  if (!asset_name || !source) {
-    res.status(400).send("You must provided mandatory data");
-  } else {
+  const newAsset = {
+    asset_name: req.file.filename,
+    source:
+      type === "image/png"
+        ? `public/assets/${req.file.filename}`
+        : "image/jpg"
+        ? `public/assets/${req.file.filename}`
+        : "image/jpeg"
+        ? `public/assets/${req.file.filename}`
+        : null,
+  };
+  if (type === "image/png" || type === "image/jpg" || type === "image/jpeg") {
     try {
-      const [result] = await Assets.createOneAsset({ asset_name, source });
+      const [result] = await Assets.createOneAsset(newAsset);
       req.assets_id = result.insertId;
       next();
     } catch (err) {
       res.status(500).send(err.message);
     }
+  } else {
+    res.status(406).send("Entrer un type correct d'image");
   }
 };
 

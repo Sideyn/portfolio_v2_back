@@ -9,6 +9,7 @@ linkRouter.delete(
   authControllers.verifyToken,
   linkControllers.deleteOneLink
 );
+
 linkRouter.post(
   "/",
   authControllers.verifyToken,
