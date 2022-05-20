@@ -1,3 +1,6 @@
+// Je crée ce fichier spécialement pour réunir tout mes fichiers routes afin de les exporter plus facilement
+// pour les importer directement via mainRouter dans mon fichier App
+
 const mainRouter = require("express").Router();
 const adminRouter = require("./admin.routes");
 const assetsRouter = require("./assets.routes");

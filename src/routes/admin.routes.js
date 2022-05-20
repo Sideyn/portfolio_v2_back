@@ -1,20 +1,18 @@
+// Je crée mon router adminRouter
 const adminRouter = require("express").Router();
-const { adminControllers, authControllers } = require("../controllers");
 
-adminRouter.get("/", adminControllers.getAllAdmins);
+// J'importe mon controller
+const { adminControllers } = require("../controllers");
+
+// Je crée ma premiére route get en appelant mon controller suivi de la fonction getAdmin pour récupérer l'admin
+adminRouter.get("/", adminControllers.getAdmin);
 adminRouter.get("/:id", adminControllers.getOneAdminById);
 
 adminRouter.post(
   "/",
-  adminControllers.validateNewAdminData,
   adminControllers.createOneAdmin,
   adminControllers.getOneAdminById
 );
 
-adminRouter.delete(
-  "/:id",
-  authControllers.verifyToken,
-  adminControllers.deleteOneAdmin
-);
-
+// J'exporte mon router, adminRouter pour l'envoyer vers le fichier index.js
 module.exports = adminRouter;
