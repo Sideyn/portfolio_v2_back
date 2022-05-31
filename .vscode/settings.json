@@ -18,5 +18,7 @@
         "titleBar.inactiveBackground": "#ba9de399",
         "titleBar.inactiveForeground": "#15202b99"
     },
-    "peacock.color": "#ba9de3"
+    "peacock.color": "#ba9de3",
+    "editor.cursorBlinking": "blink",
+    "workbench.preferredDarkColorTheme": "Default Dark+"
 }
