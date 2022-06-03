@@ -17,11 +17,6 @@ const getAllProjects = async (req, res) => {
           assets: [{ source: project.source, title: project.asset_name }],
         };
         projects.push(projectWithAssets);
-      } else {
-        projects[projects.length - 1].projects.push({
-          source: project.source,
-          title: project.asset_name,
-        });
       }
     });
     res.json(projects);
@@ -57,7 +52,7 @@ const getOneProjectById = async (req, res) => {
 };
 
 const createOneProject = async (req, res, next) => {
-  const { assets_id, title, link, description } = req.body;
+  const { title, link, description, assets_id } = req.body;
   try {
     const [result] = await Projects.createOne({
       title,
@@ -76,7 +71,6 @@ const updateOneProjectById = async (req, res, next) => {
   const { id } = req.params;
   const { title, link, description, assets_id } = req.body;
   const newProject = {};
-
   if (title) {
     newProject.title = title;
   }
