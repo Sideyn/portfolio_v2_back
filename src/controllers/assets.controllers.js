@@ -43,7 +43,6 @@ const uploadOneAsset = async (req, resp, next) => {
     if (err) {
       resp.status(500).json(err);
     } else {
-      console.log(req.file);
       next();
     }
   });
