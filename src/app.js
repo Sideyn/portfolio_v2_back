@@ -5,10 +5,10 @@ require("dotenv").config();
 const cors = require("cors");
 
 // J'importe express pour pouvoir mettre en place mon API
-const express = require("express");
-
 // J'indique que App utilisera Express
+const express = require("express");
 const app = express();
+app.use(express.json());
 
 // J'importe mes routes pour créer une liaison entre ma BDD et mon API
 const mainRouter = require("./routes");
@@ -17,7 +17,6 @@ const mainRouter = require("./routes");
 const cookieParser = require("cookie-parser");
 
 // Je configure CORS pour autoriser uniquement le front à communiquer avec mon API
-app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
