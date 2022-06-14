@@ -53,7 +53,7 @@ class Admin {
 
   // Je vérifie que le password a bien été hashé et qu'il est valide
   static async verifyPasswordHash(password, hashedPassword) {
-    const valid = await argon2.verify(hashedPassword, password);
+    const valid = await argon2.verify(hashedPassword, password, hashingOptions);
     return valid;
   }
 
