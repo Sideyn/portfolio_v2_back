@@ -14,7 +14,7 @@ class Projects {
 
   static findAssetsByProjectId(id) {
     const sql =
-      "SELECT source, a.source, a.asset_name FROM assets AS a INNER JOIN projects AS p ON p.assets_id";
+      "SELECT source, a.source, a.asset_name FROM assets AS a INNER JOIN projects AS p ON p.assets_id=a.id";
     return connection.promise().query(sql, [id]);
   }
 

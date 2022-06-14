@@ -4,6 +4,10 @@
   "description": "Template for a backend project",
   "main": "index.js",
   "scripts": {
+    "create-db-migration": "db-migrate create $NAME --sql-file",
+    "migrate-up": "db-migrate up",
+    "down-db": "db-migrate down",
+    "reset-db": "db-migrate reset",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./src/index.js",
     "dev": "nodemon ./src/index.js"
