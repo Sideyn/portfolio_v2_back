@@ -13,16 +13,6 @@ let config = {
   host: process.env.DB_HOST,
 };
 
-// if (process.env.NODE_ENV === "test") {
-//   config = {
-//     database: process.env.DB_NAME_TEST,
-//     port: process.env.DB_PORT_TEST,
-//     user: process.env.DB_USER_TEST,
-//     password: process.env.DB_PASSWORD_TEST,
-//     host: process.env.DB_HOST_TEST,
-//   };
-// }
-
 // J'utilise la méthode mysql.createPool pour mettre en place la connexion avec les variables d'environnement
 const connection = mysql.createPool(config);
 
