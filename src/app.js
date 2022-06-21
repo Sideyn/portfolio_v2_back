@@ -29,7 +29,7 @@ app.use(
 app.use(function (req, res, next) {
   res.header(
     "Access-Control-Allow-Origin",
-    "https://portfolio-sidney.netlify.app/"
+    "https://db-portfolio-sidney.herokuapp.com/"
   );
   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
   res.header("Access-Control-Allow-Headers", "Content-Type");
