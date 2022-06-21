@@ -26,6 +26,16 @@ app.use(
   })
 );
 
+app.use(function (req, res, next) {
+  res.header(
+    "Access-Control-Allow-Origin",
+    "https://portfolio-sidney.netlify.app/"
+  );
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+  next();
+});
+
 // J'indique l'accés à mon dossier public ou se trouve mes assets
 app.use("/public", express.static("public"));
 
