@@ -19,12 +19,7 @@ const cookieParser = require("cookie-parser");
 // Je configure CORS pour autoriser uniquement le front à communiquer avec mon API
 // Permet d'avoir accés aux cookies envoyé dans les requetes
 app.use(cookieParser());
-app.use(
-  cors({
-    credentials: true,
-    origin: process.env.CLIENT_ORIGIN,
-  })
-);
+app.use(cors());
 
 // J'indique l'accés à mon dossier public ou se trouve mes assets
 app.use("/public", express.static("public"));
