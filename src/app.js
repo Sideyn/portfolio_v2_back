@@ -22,7 +22,7 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: process.env.CLIENT_ORIGIN,
+    origin: "https://portfolio-sidney.netlify.app/",
   })
 );
 
