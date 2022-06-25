@@ -37,7 +37,7 @@ const getOneProjectById = async (req, res) => {
       projects.push(projectWithAssets);
     });
     res.json(projects);
-    if (result.lengh === 0) {
+    if (result.length === 0) {
       res.status(404).send(`Projet avec l'id ${id} non trouvé`);
     } else {
       res.status(statusCode).json(result[0]);
