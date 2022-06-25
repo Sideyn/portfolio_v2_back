@@ -1,7 +1,7 @@
 {
-  "name": "back-template",
+  "name": "portfolio",
   "version": "1.0.0",
-  "description": "Template for a backend project",
+  "description": "My portfolio",
   "main": "index.js",
   "scripts": {
     "create-db-migration": "db-migrate create $NAME --sql-file",

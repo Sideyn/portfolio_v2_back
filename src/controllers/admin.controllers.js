@@ -10,6 +10,7 @@ const { Admin } = require("../models");
 // 3) Si je n'ai pas d'erreur, je renvoie au format json mes résultats
 // 4) Si j'ai une erreur, je renvoie une erreur
 
+// Récupére les informations de l'admin à partir de la bdd
 const getAdmin = async (req, res) => {
   try {
     const [results] = await Admin.findAdmin();
@@ -19,20 +20,21 @@ const getAdmin = async (req, res) => {
   }
 };
 
+// Trouve un admin si il y a bien un id
 const getOneAdminById = async (req, res) => {
   try {
     const [result] = await Admin.findOneAdminById(id);
-
     if (result.length === 0) {
       res.status(404).send(`Admin avec l'id ${id} non trouvé`);
     } else {
-      res.status(statusCode).json(result[0]);
+      res.status(200).json(result[0]);
     }
   } catch (err) {
     res.status(500).send(err.message);
   }
 };
 
+// Crée un admin et hash le mot de passe
 const createOneAdmin = async (req, res, next) => {
   const { mail, password } = req.body;
   try {
@@ -45,6 +47,7 @@ const createOneAdmin = async (req, res, next) => {
   }
 };
 
+// Vérifie si les informations de connexions sont correcte et que le mdp est bien hashé
 const verifyAdminLogin = async (req, res, next) => {
   const { mail, password } = req.body;
   try {

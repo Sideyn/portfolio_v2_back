@@ -1,6 +1,8 @@
-const multer = require("multer");
 const { Assets } = require("../models");
+// J'importe multer pour pouvoir upload des fichiers
+const multer = require("multer");
 
+// Récupére tous les assets de la table assets puis envoies les résultats au format JSON
 const getAllAssets = async (req, res) => {
   try {
     const [results] = await Assets.findManyAssets();
@@ -10,33 +12,32 @@ const getAllAssets = async (req, res) => {
   }
 };
 
+// Récupére l'asset par son id
 const getOneAssetById = async (req, resp) => {
   const id = req.params.id ? req.params.id : req.assets_id;
-  const statusCode = req.method === "POST" ? 201 : 200;
-  console.log(id, "id");
   try {
     const [result] = await Assets.findOneAssetById(id);
     if (result.length === 0) {
       resp.status(404).send(`Image ${id} non trouvé`);
     } else {
-      resp.status(statusCode).json(result[0]);
+      resp.status(200).json(result[0]);
     }
   } catch (err) {
     resp.status(500).send(err.message);
   }
 };
 
+// Télècharge un fichier et le stocke
 const uploadOneAsset = async (req, resp, next) => {
+  // configuration du dossier où stocker l'image et le nom de l'image
   const assetStorage = multer.diskStorage({
     destination: (_req, asset, cb) => {
-      // Le dossier ou je stocke mes assets
       cb(null, `public/assets/`);
     },
     filename: (_, asset, cb) => {
       cb(null, `${asset.originalname}`);
     },
   });
-
   // Je configure multer pour qu'il sauvegarde bien un seul fichier
   const upload = multer({ storage: assetStorage }).single("asset");
   upload(req, resp, (err) => {
@@ -48,6 +49,7 @@ const uploadOneAsset = async (req, resp, next) => {
   });
 };
 
+// Crée un asset
 const createOneAsset = async (req, res, next) => {
   let { type } = req.query;
   type =
@@ -81,6 +83,7 @@ const createOneAsset = async (req, res, next) => {
   }
 };
 
+// Supprime un asset
 const deleteOneAssetById = async (req, res) => {
   const { id } = req.params;
   try {
