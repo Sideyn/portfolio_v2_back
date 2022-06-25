@@ -34,7 +34,7 @@ app.get("/", (req, res) => {
   res.status(200).json({ message: "Hello undefined api !" });
 });
 
-// J'indique que /api et ma route principal
+// J'indique que  toutes mes routes utilisant mainRouter commenceront par /api
 app.use("/api", mainRouter);
 
 module.exports = app;

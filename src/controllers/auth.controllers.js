@@ -1,4 +1,4 @@
-// J'importe le package JWT qui va me servir à me définir un token pour pouvoir avoir accés à un endroit restreint
+// J'importe le package JWT
 const jwt = require("jsonwebtoken");
 
 // Je crée le token
