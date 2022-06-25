@@ -2,22 +2,17 @@ const { Projects } = require("../models");
 
 const getAllProjects = async (req, res) => {
   try {
-    const [results] = await Projects.findManyWithAssets();
+    const [results] = await Projects.findManyProjects();
     const projects = [];
     results.forEach((project) => {
-      if (
-        projects.length === 0 ||
-        project.id !== projects[projects.length - 1].id
-      ) {
-        const projectWithAssets = {
-          id: project.id,
-          title: project.title,
-          link: project.link,
-          description: project.description,
-          assets: [{ source: project.source, title: project.asset_name }],
-        };
-        projects.push(projectWithAssets);
-      }
+      const projectWithAssets = {
+        id: project.id,
+        title: project.title,
+        link: project.link,
+        description: project.description,
+        asset: [{ source: project.source, title: project.asset_name }],
+      };
+      projects.push(projectWithAssets);
     });
     res.json(projects);
   } catch (err) {
@@ -26,28 +21,29 @@ const getAllProjects = async (req, res) => {
 };
 
 const getOneProjectById = async (req, res) => {
-  const id = req.params.id ? req.params.id : req.projects_id;
+  const id = req.params.id ? req.params.id : req.id;
   const statusCode = req.method === "POST" ? 201 : 200;
-
-  let projectsResult;
-  let assetsResult;
   try {
-    [projectsResult] = await Projects.findOneProjectById(id);
+    const [result] = await Projects.findOneProjectByAssetId(id);
+    const projects = [];
+    result.forEach((project) => {
+      const projectWithAssets = {
+        id: project.id,
+        title: project.title,
+        link: project.link,
+        description: project.description,
+        asset: [{ source: project.source, title: project.asset_name }],
+      };
+      projects.push(projectWithAssets);
+    });
+    res.json(projects);
+    if (result.lengh === 0) {
+      res.status(404).send(`Projet avec l'id ${id} non trouvé`);
+    } else {
+      res.status(statusCode).json(result[0]);
+    }
   } catch (err) {
     res.status(500).send(err.message);
-  }
-  try {
-    [assetsResult] = await Projects.findAssetsByProjectId(id);
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
-  if (projectsResult.length === 0) {
-    res.status(404).send(`Projet ${id} non trouvé`);
-  } else if (assetsResult.length === 0) {
-    res.status(statusCode).json(projectsResult[0]);
-  } else {
-    projectsResult[0].assets = assetsResult[0];
-    res.status(statusCode).json(projectsResult[0]);
   }
 };
 

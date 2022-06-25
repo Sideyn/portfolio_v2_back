@@ -1,6 +1,7 @@
 const { connection } = require("../../db-connection");
 
 class Assets {
+  // Trouve tous les fichiers
   static findManyAssets() {
     const sql = "SELECT * FROM assets";
     return connection.promise().query(sql);
@@ -16,6 +17,7 @@ class Assets {
     return connection.promise().query(sql, [asset]);
   }
 
+  // Supprimer un fichier
   static deleteOneAssetById(id) {
     const sql = "DELETE FROM assets WHERE id=?";
     return connection.promise().query(sql, [id]);
